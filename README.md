@@ -1,2 +1,4 @@
-# Repo for CPE 553: C++ - Project 2
-Genesis Cevallos and Robert Plastina
+# CPE 553: C++ Project 2
+## "Captain Veggie"
+
+Group Members: Genesis Cevallos and Robert Plastina
