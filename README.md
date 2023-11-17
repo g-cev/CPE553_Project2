@@ -1,2 +1,2 @@
-# CPE553_Project2
-project 2 github for C++ 
+# Repo for CPE 553: C++ - Project 2
+Genesis Cevallos and Robert Plastina
