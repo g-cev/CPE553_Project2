@@ -2,8 +2,8 @@
 
 Group Members: Genesis Cevallos and Robert Plastina
 
-## /Folders
-#### InputOutputFiles
+## Folders
+#### /InputOutputFiles
 - Configuration files
 - Example outputs for the project
 
