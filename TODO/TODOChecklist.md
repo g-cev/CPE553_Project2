@@ -25,6 +25,22 @@
 
 1. GameEngine.h, GameEngine.cpp
 
+--Functions within GameEngine.cpp--
+- [ ] initializeGame()
+    - [ ] a. initVeggies()
+    - [ ] b. initCaptain()
+    - [ ] c. initRabbits()
+- [ ] remainingVeggies()
+- [ ] intro()
+- [ ] printField()
+- [ ] getScore()
+- [ ] moveRabbits()
+- [ ] moveCaptain()
+    - [ ] a. moveCptVertical()
+    - [ ] b. moveCptHorizontal()
+- [ ] gameOver()
+
+
 ### Main
 
 1. main.cpp
@@ -32,7 +48,7 @@
 
 ## Assigned Files
 #### Genesis
-- assigned files here (TODO)
+- Data Storage: completed setting up classes 11/19, save for some notes/questions 
 
 #### Robert
 - assigned files here (TODO)
