@@ -32,7 +32,7 @@
     - [ ] c. initRabbits()
 - [x] remainingVeggies()
 - [ ] intro() - PARTIALLY DONE
-- [ ] printField()
+- [ ] printField() - PARTIALLY DONE
 - [ ] getScore()
 - [ ] moveRabbits()
 - [ ] moveCaptain()
