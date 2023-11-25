@@ -7,7 +7,12 @@
 #define GAMEENGINE_H
 
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <vector>
+#include <ctime>
+#include <cstdlib>
+#include <iomanip>
 
 //include subclasses
 #include "Captain.h"
@@ -16,10 +21,17 @@
 
 using namespace std;
 
+struct Position 
+{
+    int xPos;
+    int yPos;
+};
+
 class GameEngine
 {
     private:
         //triple pointer to store 2D dynamic array
+        //to ask: why a triple pointer?
         FieldInhabitant*** field;
 
         //height and width of the field

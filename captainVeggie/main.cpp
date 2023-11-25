@@ -12,5 +12,38 @@ int main()
     //instantiate and store GameEngine object
     GameEngine game = GameEngine();
 
-    //TODO: Main function
+    //initialize the game
+    game.initializeGame();
+
+    //display the game's intro
+    game.intro();
+
+    //variable to store number of remaining veggies
+    int veggiesLeft = game.remainingVeggies();
+
+    //genesis: printField() taken out of while-loop for testing purposes
+    game.printField();
+    return 0;   //cutoff to avoid infinite loop from unfinished functions
+
+    //while there are still veggies left in the game
+    while (veggiesLeft > 0)
+    {
+        cout << "\n\n" << veggiesLeft << " veggies remaining.";
+        cout << " Current score: " << game.getScore() << endl;
+
+        //print out the field
+        game.printField();
+
+        //move the rabbits
+        //game.moveRabbits();
+
+        //move the captain
+        //game.moveCaptain();
+
+        //update number of remaining veggies
+        veggiesLeft = game.remainingVeggies();
+    }
+
+    //display game over
+    game.gameOver();
 }
