@@ -1,5 +1,5 @@
 /*
-    Authors: Genesis Cevallos, Robert Plastina
+    Authors: Genesis Cevallos, Robert Plastina, Praveena Batta
     Date: 12/7/2023
     Description: This program starts a game of "Captain Veggie", where the user
                  must collect veggies while avoiding rabbits and other obstacles.

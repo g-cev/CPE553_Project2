@@ -1,6 +1,6 @@
 # CPE 553 Project 2: "Captain Veggie"
 
-Group Members: Genesis Cevallos and Robert Plastina
+Group Members: Genesis Cevallos, Robert Plastina, Praveena Batta
 
 ## Folders
 #### /InputOutputFiles

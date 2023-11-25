@@ -7,7 +7,7 @@
 using namespace std;
 
 /*
-    Authors: Genesis Cevallos, Robert Plastina
+    Authors: Genesis Cevallos, Robert Plastina, Praveena Batta
     Description: This header file defines the superclass "FieldInhabitant".
 */
 

@@ -1,6 +1,6 @@
 # Project Name: Captain Veggie
 
-## Group Members: Robert Plastina, Genesis Cevallos
+## Group Members: Robert Plastina, Genesis Cevallos, Praveena Batta
 
 ## Preferred Communication Methods:
 -	Discord, signal sms
