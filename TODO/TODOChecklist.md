@@ -26,12 +26,12 @@
 1. GameEngine.h, GameEngine.cpp
 
 --Functions within GameEngine.cpp--
-- [ ] initializeGame()
-    - [ ] a. initVeggies()
+- [x] initializeGame()
+    - [x] a. initVeggies()
     - [ ] b. initCaptain()
     - [ ] c. initRabbits()
-- [ ] remainingVeggies()
-- [ ] intro()
+- [x] remainingVeggies()
+- [ ] intro() - PARTIALLY DONE
 - [ ] printField()
 - [ ] getScore()
 - [ ] moveRabbits()
@@ -43,12 +43,14 @@
 
 ### Main
 
-1. main.cpp
+1. [x] main.cpp
 
 
 ## Assigned Files
 #### Genesis
 - Data Storage: completed setting up classes 11/19, save for some notes/questions 
+- Completed: initVeggies(), remainingVeggies(), main.cpp, 11/25
+- Working on: printField(), potentially bonus?
 
 #### Robert
 - assigned files here (TODO)
