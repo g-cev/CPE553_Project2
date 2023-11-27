@@ -114,6 +114,7 @@ void GameEngine::initVeggies()
 
 void GameEngine::initCaptain()
 {
+    
 
 }
 
