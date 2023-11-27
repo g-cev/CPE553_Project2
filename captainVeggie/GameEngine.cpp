@@ -159,7 +159,7 @@ void GameEngine::intro()
     }
 
     //TODO: add in appropriate "get" functions when init functions are done 
-    cout << "\nCaptain Veggies is __, and the rabbits are __'s." << endl;
+    cout << "\nCaptain Veggie is __, and the rabbits are __'s." << endl;
 
     cout << "\nGood luck!\n" << endl;
 }
@@ -168,7 +168,7 @@ void GameEngine::intro()
 ///        format with a border around the entire grid.
 void GameEngine::printField()
 {
-    int border_width = width * 3 + 2;
+    int border_width = width * 3 + 3;
     for (int i = 0; i < border_width; i++)
     {
         cout << "#";
@@ -183,12 +183,23 @@ void GameEngine::printField()
 
         for (int h = 0; h < width; h++)
         {
-            //pointer for testing
-            FieldInhabitant* object_ptr = dynamic_cast<FieldInhabitant*>(field[i][h]);
+            //pointers for testing
+            Veggie* veggie_ptr = dynamic_cast<Veggie*>(field[i][h]);
+            Captain* captain_ptr = dynamic_cast<Captain*>(field[i][h]);
+            Rabbit* rabbit_ptr = dynamic_cast<Rabbit*>(field[i][h]);
 
-            if (object_ptr != nullptr)
+            if (veggie_ptr != nullptr)
             {
-                cout << setw(3) << field[i][h]->getSymbol();
+                cout << setw(7) << GREEN << field[i][h]->getSymbol() << RESET;
+                //cout << setw(3) << field[i][h]->getSymbol();
+            }
+            else if (captain_ptr != nullptr)
+            {
+                //add code later
+            }
+            else if (rabbit_ptr != nullptr)
+            {
+                //add code later
             }
             else
             {
@@ -197,7 +208,7 @@ void GameEngine::printField()
         }
 
         //right border
-        cout << "#" << endl;
+        cout << " #" << endl;
     }
 
     //bottom border
