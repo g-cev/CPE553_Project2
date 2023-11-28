@@ -40,6 +40,9 @@ int main()
         //move the captain
         //game.moveCaptain();
 
+        //move the snake
+        //game.moveSnake();
+
         //update number of remaining veggies
         veggiesLeft = game.remainingVeggies();
     }
