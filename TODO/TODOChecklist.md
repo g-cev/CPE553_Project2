@@ -29,12 +29,12 @@
 - [x] initializeGame()
     - [x] a. initVeggies()
     - [ ] b. initCaptain()
-    - [ ] c. initRabbits()
+    - [x] c. initRabbits()
 - [x] remainingVeggies()
 - [ ] intro() - PARTIALLY DONE
 - [ ] printField() - PARTIALLY DONE
 - [ ] getScore()
-- [ ] moveRabbits()
+- [x] moveRabbits()
 - [ ] moveCaptain()
     - [ ] a. moveCptVertical()
     - [ ] b. moveCptHorizontal()
@@ -56,4 +56,5 @@
 - assigned files here (TODO)
 
 ### Praveena
-- assigned files here (TODO)
+- initRabbits()
+
