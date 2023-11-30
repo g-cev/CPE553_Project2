@@ -7,6 +7,10 @@
 #include "Veggie.h"
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
+
+using namespace std;
+
 //TODO: Define GameEngine functions. Descriptions have been added in header file.
 //Order of definitions was based on project instructions.
 
@@ -14,7 +18,7 @@ void GameEngine::initializeGame()
 {
     initVeggies();
     //initCaptain();
-    //initRabbits();
+    initRabbits();
 
     //initialize score to 0
     int score = 0;
@@ -236,7 +240,7 @@ void GameEngine::printField()
 
 int GameEngine::getScore()
 {
-    return 0;
+    return score;
 }
 
 void GameEngine::moveRabbits()
@@ -284,5 +288,28 @@ void GameEngine::moveCaptain()
 
 void GameEngine::gameOver()
 {
-
+    cout << "GameOver! Thank you for playing captain veggie" << endl;
+    if (captainVeggie)
+    {
+        cout << "Vegetables harvested by Captain: " << endl;
+        if (!captainVeggie->getVeggiesCollected().empty())
+        {
+            for (const auto& veggie : captainVeggie->getVeggiesCollected())
+            {
+                if (veggie)
+                {
+                    cout << veggie->getVeggieName() << endl;
+                }
+            }
+        } 
+        else 
+        {
+            cout << "No vegetables were harvested. " << endl;
+        }
+        cout << "Your final score: " << score << endl;
+    } 
+    else
+    {
+        cout << "Error: Captain not initialized." << endl;
+    }
 }
