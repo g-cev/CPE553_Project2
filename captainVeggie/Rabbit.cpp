@@ -5,7 +5,7 @@
 
 #include "Rabbit.h"
 
-Rabbit::Rabbit(int xPos, int yPos) : Creature(xPos, yPos, "R")
+Rabbit::Rabbit(int xPos, int yPos,const string& symbol) : Creature(xPos, yPos, "R")
 {
     //do-nothing constructor -> ask in office hours
 }

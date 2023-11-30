@@ -13,8 +13,8 @@ class Rabbit : public Creature
 {
     public:
         //public constructor
-        Rabbit(int xPos, int yPos);
+        Rabbit(int xPos, int yPos,const string& symbol);
 
 };
 
-#endif
+#endif // RABBIT_H

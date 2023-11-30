@@ -56,5 +56,7 @@
 - assigned files here (TODO)
 
 ### Praveena
-- initRabbits()
+- Completed working on moveRabbits() in GameEngine.cpp-11/29
+- Completed working on initRabbits() in GameEngine.cpp-11/29
+- Edited "const string& symbol" in Rabbit.h and Rabbit.cpp
 
