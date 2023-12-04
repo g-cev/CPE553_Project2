@@ -5,6 +5,12 @@
 
 #include "GameEngine.h"
 #include "Veggie.h"
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
+
+using namespace std;
+
 //TODO: Define GameEngine functions. Descriptions have been added in header file.
 //Order of definitions was based on project instructions.
 
@@ -12,7 +18,7 @@ void GameEngine::initializeGame()
 {
     initVeggies();
     //initCaptain();
-    //initRabbits();
+    initRabbits();
     initSnake();
 
     //initialize score to 0
@@ -113,12 +119,25 @@ void GameEngine::initVeggies()
 
 void GameEngine::initCaptain()
 {
+    
 
 }
 
 void GameEngine::initRabbits()
 {
+    for (int i = 0; i < NUMBEROFRABBITS; ++i)
+    {
+        int x, y;
+        do
+        {
+            x = rand() % width;
+            y = rand() % height;
+        } while (field[x][y] != nullptr);
 
+        Rabbit* newRabbit = new Rabbit(x, y, "R");
+        rabbits.push_back(newRabbit);
+        field[x][y] = newRabbit;
+    }
 }
 
 int GameEngine::remainingVeggies()
@@ -193,11 +212,11 @@ void GameEngine::printField()
             }
             else if (captain_ptr != nullptr)
             {
-                //add code later
+                cout << setw(7) << YELLOW << "C"; // Assuming "C" is the symbol for Captain and captain is colour coded yellow.
             }
             else if (rabbit_ptr != nullptr)
             {
-                //add code later
+                cout << setw(7) << RED << "R"; //Assuming Rabbit is red and R is the symbol for rabbit
             }
             else if (snake_ptr != nullptr)
             {
@@ -218,16 +237,40 @@ void GameEngine::printField()
     {
         cout << "#";
     }
+    cout << endl;
 }
 
 int GameEngine::getScore()
 {
-    return 0;
+    return score;
 }
 
 void GameEngine::moveRabbits()
 {
+    for (auto rabbit : rabbits)
+    {
+        int dx = rand() % 3 - 1;  // Generates -1, 0, or 1
+        int dy = rand() % 3 - 1;  // Generates -1, 0, or 1
 
+        int newX = rabbit->getXPos() + dx;
+        int newY = rabbit->getYPos() + dy;
+
+        if (newX >= 0 && newX < width && newY >= 0 && newY < height)
+        {
+            FieldInhabitant* occupant = field[newX][newY];
+
+            Veggie* veggie = dynamic_cast<Veggie*>(occupant);
+
+            if (occupant == nullptr || veggie != nullptr)
+            {
+                delete occupant;
+                field[rabbit->getXPos()][rabbit->getYPos()] = nullptr;
+                rabbit->setXPos(newX);
+                rabbit->setYPos(newY);
+                field[newX][newY] = rabbit;
+            }
+        }
+    }
 }
 
 void GameEngine::moveCptVertical(int move)
@@ -247,7 +290,30 @@ void GameEngine::moveCaptain()
 
 void GameEngine::gameOver()
 {
-
+    cout << "GameOver! Thank you for playing captain veggie" << endl;
+    if (captainVeggie)
+    {
+        cout << "Vegetables harvested by Captain: " << endl;
+        if (!captainVeggie->getVeggiesCollected().empty())
+        {
+            for (const auto& veggie : captainVeggie->getVeggiesCollected())
+            {
+                if (veggie)
+                {
+                    cout << veggie->getVeggieName() << endl;
+                }
+            }
+        } 
+        else 
+        {
+            cout << "No vegetables were harvested. " << endl;
+        }
+        cout << "Your final score: " << score << endl;
+    } 
+    else
+    {
+        cout << "Error: Captain not initialized." << endl;
+    }
 }
 
 void GameEngine::initSnake()
@@ -435,4 +501,5 @@ void GameEngine::moveSnake()
 
     //move snake to new spot
     field[y_new][x_new] = snake;
+
 }

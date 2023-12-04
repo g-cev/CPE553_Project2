@@ -39,9 +39,12 @@ class GameEngine
         int height;
         int width;
 
-        //important constants
-        const int NUMBEROFVEGGIES = 30;
-        const int NUMBEROFRABBITS = 5;
+        //Adding score("P")
+        int score;
+
+        //important constants(Marking as static"P")
+        static const int NUMBEROFVEGGIES = 30;
+        static const int NUMBEROFRABBITS = 5;
 
         const string RESET = "\033[0m";
         const string RED = "\033[31m";
@@ -119,4 +122,4 @@ class GameEngine
         bool nextMoveNotOk(int xPos, int yPos);
 };
 
-#endif
+#endif //GAMEENGINE_H
