@@ -19,13 +19,12 @@ void GameEngine::initializeGame()
     initVeggies();
     //initCaptain();
     initRabbits();
+    initSnake();
 
     //initialize score to 0
     int score = 0;
 }
 
-/// @brief This function initializes veggie objects based off of
-///        the input configuration file.
 void GameEngine::initVeggies()
 {
     //prompt user for the name of the file
@@ -183,8 +182,6 @@ void GameEngine::intro()
     cout << "\nGood luck!\n" << endl;
 }
 
-/// @brief This function outputs the contents of the field in a pleasing, 2D grid
-///        format with a border around the entire grid.
 void GameEngine::printField()
 {
     int border_width = width * 3 + 3;
@@ -206,6 +203,7 @@ void GameEngine::printField()
             Veggie* veggie_ptr = dynamic_cast<Veggie*>(field[i][h]);
             Captain* captain_ptr = dynamic_cast<Captain*>(field[i][h]);
             Rabbit* rabbit_ptr = dynamic_cast<Rabbit*>(field[i][h]);
+            Snake* snake_ptr = dynamic_cast<Snake*>(field[i][h]);
 
             if (veggie_ptr != nullptr)
             {
@@ -219,6 +217,10 @@ void GameEngine::printField()
             else if (rabbit_ptr != nullptr)
             {
                 cout << setw(7) << RED << "R"; //Assuming Rabbit is red and R is the symbol for rabbit
+            }
+            else if (snake_ptr != nullptr)
+            {
+                cout << setw(7) << RED << field[i][h]->getSymbol() << RESET;
             }
             else
             {
@@ -312,4 +314,192 @@ void GameEngine::gameOver()
     {
         cout << "Error: Captain not initialized." << endl;
     }
+}
+
+void GameEngine::initSnake()
+{
+    //randomize coordinates
+    int snake_x = rand() % width;
+    int snake_y = rand() % height;
+
+    //while this spot is not empty, 
+    while (field[snake_y][snake_x] != nullptr)
+    {
+        //keep trying to find unique coordinates
+        snake_x = rand() % width;
+        snake_y = rand() % height;
+    }
+
+    //instantiate snake object
+    Snake* snake = new Snake(snake_x, snake_y);
+
+    //place snake object in field
+    this->snake = snake;
+    field[snake_y][snake_x] = snake;
+}
+
+bool GameEngine::nextMoveNotOk(int xPos, int yPos)
+{
+    bool outOfBounds = false;
+    bool obstacleExists = false;
+
+    //if coordinates are out of bounds
+    if (xPos < 0 || yPos < 0 || xPos >= height || yPos >= height)
+    {
+        outOfBounds = true;
+    }
+    
+    //test pointer to see if the captain is the "obstacle"
+    Captain* captain_ptr = dynamic_cast<Captain*>(field[xPos][yPos]);
+
+    //if invalid OR (not the captain AND not empty)
+    if (outOfBounds || (captain_ptr == nullptr && field[xPos][yPos] != nullptr))
+    {
+        obstacleExists = true;
+    }
+
+    return obstacleExists;
+}
+
+void GameEngine::moveSnake()
+{
+    //get current position of the snake
+    int snake_x = snake->getXPos();
+    int snake_y = snake->getYPos();
+
+    //get current position of Captain Veggie
+    int captain_x = captainVeggie->getXPos();
+    int captain_y = captainVeggie->getYPos();
+
+    //start at the current position
+    int x_new = snake_x;
+    int y_new = snake_y;
+
+    //determine new position snake should move to
+    int x_direction, y_direction = 0;
+
+    int x_difference = snake_x - captain_x;
+    if (x_difference < 0)
+        x_direction = 1;    //if snake's x is less than captain's, move right
+    else if (x_difference > 0)
+        x_direction = -1;   //if snake's x is more than captain's, move left
+    else
+        x_direction = 0;    //stay the same
+
+    int y_difference = snake_y - captain_y;
+    if (y_difference < 0)
+        y_direction = 1;    //if snake's y is less than captain's, move right
+    else if (y_difference > 0)
+        y_direction = -1;   //if snake's y is more than captain's, move left
+    else
+        y_direction = 0;    //stay the same
+
+
+    //move left or right
+    if (x_direction != 0)
+    {
+        x_new += x_direction;
+
+        if (y_direction == 0)
+        {
+            //we always want to move in the y direction if x is blocked
+            y_direction = -1;
+        }
+        if (nextMoveNotOk(x_new, y_new))
+        {
+            //attempt to go around obstacle
+            x_new = snake_x;
+            y_new += y_direction;
+            if (nextMoveNotOk(x_new, y_new))
+            {
+                //something in the way again, not possible to move closer to captain
+                y_new = snake_y;
+                //move opposite direction of original
+                x_new -= x_direction;
+
+                if (nextMoveNotOk(x_new, y_new))
+                {
+                    //something blocking us again!
+                    x_new = snake_x;
+                    y_new -= y_direction;
+
+                    if (nextMoveNotOk(x_new, y_new))
+                    {
+                        //blocked on all directions, don't move
+                        y_new = snake_y;
+                    }
+                }
+            }
+        }
+    }
+
+    //move up or down
+    if (y_direction != 0)
+    {
+        y_new += y_direction;
+
+        if (x_direction == 0)
+        {
+            //we always want to move in the x direction if y is blocked
+            x_direction = -1;
+        }
+        if (nextMoveNotOk(x_new, y_new))
+        {
+            //attempt to go around obstacle
+            y_new = snake_y;
+            x_new += x_direction;
+            if (nextMoveNotOk(x_new, y_new))
+            {
+                //something in the way again, not possible to move closer to captain
+                x_new = snake_x;
+                //move opposite direction of original
+                y_new -= y_direction;
+
+                if (nextMoveNotOk(x_new, y_new))
+                {
+                    //something blocking us again!
+                    y_new = snake_y;
+                    x_new -= x_direction;
+
+                    if (nextMoveNotOk(x_new, y_new))
+                    {
+                        //blocked on all directions, don't move
+                        x_new = snake_x;
+                    }
+                }
+            }
+        }
+    }
+
+    //if the snake touches the captain
+    Captain* captain_ptr = dynamic_cast<Captain*>(field[y_new][x_new]);
+    if (captain_ptr != nullptr)
+    {   
+        //pop 5 veggies out of captains basket
+
+        //output snake message
+        cout << "Oh no! The snake ate __ veggie(s) from the basket!";
+        cout << " You lost __ points!" << endl;
+
+        //randomize new coordinates after trying to touch Captain
+        int snake_x = rand() % width;
+        int snake_y = rand() % height;
+
+        //while this spot is not empty, 
+        while (field[snake_y][snake_x] != nullptr)
+        {
+            //keep trying to find unique coordinates
+            snake_x = rand() % width;
+            snake_y = rand() % height;
+        }
+    }
+
+    // set snake's new coordinates
+    field[snake_y][snake_x] = nullptr;
+    snake->setXPos(x_new);
+    snake->setYPos(y_new);
+
+    //move snake to new spot
+    field[y_new][x_new] = snake;
+
 }

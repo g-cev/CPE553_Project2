@@ -18,6 +18,7 @@
 #include "Captain.h"
 #include "Rabbit.h"
 #include "Veggie.h"
+#include "Snake.h"
 
 using namespace std;
 
@@ -54,6 +55,7 @@ class GameEngine
         //object pointers and vectors 
         //TODO: Think of different names for vectors?
         Captain* captainVeggie;
+        Snake* snake;
         vector<Rabbit*> rabbits;
         vector<Veggie*> veggies;
 
@@ -66,6 +68,9 @@ class GameEngine
 
         /// @brief This function places rabbit objects at random locations.
         void initRabbits();
+
+        /// @brief This function places a snake at a random location.
+        void initSnake();
 
         //TODO: Specify what the "move" parameter is in further development. 
 
@@ -86,7 +91,8 @@ class GameEngine
         /// @brief This function welcomes the player and provides information about the game.
         void intro();
 
-        /// @brief This function outputs the field in a pleasing 2D grid format with a border.
+        /// @brief This function outputs the contents of the field in a pleasing, 2D grid
+        ///        format with a border around the entire grid.
         void printField();
 
         /// @brief This function moves a rabbit object in the vector of rabbits 1 space in a
@@ -95,6 +101,10 @@ class GameEngine
 
         /// @brief This function prompts the user for which direction to move Captain Veggie.
         void moveCaptain();
+
+        /// @brief This function moves the snake to chase Captain Veggie and steal 
+        ///        5 or less of his vegetables.
+        void moveSnake();
 
         /// @brief This function informs the player when the game is over and outputs final results.
         void gameOver();
@@ -106,6 +116,10 @@ class GameEngine
         /// @brief This function returns the number of veggies left on the field.
         /// @return An integer representing the amount of veggies left.
         int remainingVeggies();
+
+        /// @brief Checks if the snake's next move is valid to help it avoid obstacles.
+        /// @return True if there is an obstacle and it's not Captain Veggie, false otherwise.
+        bool nextMoveNotOk(int xPos, int yPos);
 };
 
 #endif //GAMEENGINE_H
