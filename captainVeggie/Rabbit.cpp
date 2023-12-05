@@ -7,5 +7,5 @@
 
 Rabbit::Rabbit(int xPos, int yPos,const string& symbol) : Creature(xPos, yPos, "R")
 {
-    //do-nothing constructor -> ask in office hours
+    //passes arguments to superclasses
 }

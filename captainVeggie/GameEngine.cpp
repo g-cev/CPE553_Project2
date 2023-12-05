@@ -5,6 +5,8 @@
 
 #include "GameEngine.h"
 #include "Veggie.h"
+#include "Rabbit.h"
+#include "Creature.h"
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
@@ -22,7 +24,7 @@ void GameEngine::initializeGame()
     initSnake();
 
     //initialize score to 0
-    int score = 0;
+    score = 0;
 }
 
 void GameEngine::initVeggies()
@@ -132,11 +134,11 @@ void GameEngine::initRabbits()
         {
             x = rand() % width;
             y = rand() % height;
-        } while (field[x][y] != nullptr);
+        } while (field[y][x] != nullptr);
 
-        Rabbit* newRabbit = new Rabbit(x, y, "R");
+        Rabbit* newRabbit = new Rabbit(x, y);
         rabbits.push_back(newRabbit);
-        field[x][y] = newRabbit;
+        field[y][x] = newRabbit;
     }
 }
 
@@ -166,18 +168,21 @@ void GameEngine::intro()
     cout << "\nWelcome to Captain Veggie!" << endl;
     cout << "The rabbits have invaded your garden and you must harvest" << endl;
     cout << "as many vegetables as possible before the rabbits eat them" << endl;
-    cout << "all! Each vegetable is wroth a different number of points," << endl;
+    cout << "all! Each vegetable is worth a different number of points," << endl;
     cout << "so go for the high score!" << endl;
+
+    cout << "\nBONUS: Watch out for the snake, or else it'll steal your veggies!" << endl;
 
     cout << "\nThe vegetables are: " << endl;
     for (int i = 0; i < veggies.size(); i++)
     {
-        cout << veggies[i]->getSymbol() << ": " << veggies[i]->getVeggieName();
+        cout << GREEN << veggies[i]->getSymbol() << RESET << ": " << veggies[i]->getVeggieName();
         cout << " " << veggies[i]->getPointVal() << " points" << endl;
     }
 
-    //TODO: add in appropriate "get" functions when init functions are done 
-    cout << "\nCaptain Veggie is __, and the rabbits are __'s." << endl;
+    //cout << "\nCaptain Veggie is " << captainVeggie->getSymbol();
+    cout << ", the snake is " << BLUE << snake->getSymbol() << RESET;
+    cout << ", and the rabbits are " << RED << rabbits[0]->getSymbol() << RESET << endl;
 
     cout << "\nGood luck!\n" << endl;
 }
@@ -257,17 +262,16 @@ void GameEngine::moveRabbits()
 
         if (newX >= 0 && newX < width && newY >= 0 && newY < height)
         {
-            FieldInhabitant* occupant = field[newX][newY];
+            FieldInhabitant* occupant = field[newY][newX];
 
             Veggie* veggie = dynamic_cast<Veggie*>(occupant);
 
             if (occupant == nullptr || veggie != nullptr)
             {
-                delete occupant;
-                field[rabbit->getXPos()][rabbit->getYPos()] = nullptr;
+                field[rabbit->getYPos()][rabbit->getXPos()] = nullptr;
                 rabbit->setXPos(newX);
                 rabbit->setYPos(newY);
-                field[newX][newY] = rabbit;
+                field[newY][newX] = rabbit;
             }
         }
     }
@@ -290,7 +294,7 @@ void GameEngine::moveCaptain()
 
 void GameEngine::gameOver()
 {
-    cout << "GameOver! Thank you for playing captain veggie" << endl;
+    cout << "\nGame Over! Thank you for playing \"Captain Veggie\"" << endl;
     if (captainVeggie)
     {
         cout << "Vegetables harvested by Captain: " << endl;
@@ -308,7 +312,7 @@ void GameEngine::gameOver()
         {
             cout << "No vegetables were harvested. " << endl;
         }
-        cout << "Your final score: " << score << endl;
+        cout << "Your final score: " << getScore() << endl;
     } 
     else
     {
