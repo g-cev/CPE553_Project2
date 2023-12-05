@@ -29,16 +29,16 @@
 - [x] initializeGame()
     - [x] a. initVeggies()
     - [ ] b. initCaptain()
-    - [ ] c. initRabbits()
+    - [x] c. initRabbits()
 - [x] remainingVeggies()
 - [ ] intro() - PARTIALLY DONE
 - [ ] printField() - PARTIALLY DONE
-- [ ] getScore()
-- [ ] moveRabbits()
+- [x] getScore()
+- [x] moveRabbits()
 - [ ] moveCaptain()
     - [ ] a. moveCptVertical()
     - [ ] b. moveCptHorizontal()
-- [ ] gameOver()
+- [x] gameOver()
 
 
 ### Main
@@ -56,4 +56,10 @@
 - assigned files here (TODO)
 
 ### Praveena
-- assigned files here (TODO)
+- Completed working on moveRabbits() in GameEngine.cpp-11/29
+- Completed working on initRabbits() in GameEngine.cpp-11/29
+- Edited "const string& symbol" in Rabbit.h and Rabbit.cpp
+- Made changes in printField() function on rabbits/captain-11/29
+- Made changes for getScore() function in GameEngine.h & GameEngine.cpp-11/30
+- Made changes for gameOver() in GameEngine.cpp-11/30
+

@@ -7,6 +7,12 @@
 #include "Veggie.h"
 #include "Rabbit.h"
 #include "Creature.h"
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
+
+using namespace std;
+
 //TODO: Define GameEngine functions. Descriptions have been added in header file.
 //Order of definitions was based on project instructions.
 
@@ -115,6 +121,7 @@ void GameEngine::initVeggies()
 
 void GameEngine::initCaptain()
 {
+    
 
 }
 
@@ -235,6 +242,7 @@ void GameEngine::printField()
     {
         cout << "#";
     }
+    cout << endl;
 }
 
 int GameEngine::getScore()
@@ -497,4 +505,5 @@ void GameEngine::moveSnake()
 
     //move snake to new spot
     field[y_new][x_new] = snake;
+
 }
