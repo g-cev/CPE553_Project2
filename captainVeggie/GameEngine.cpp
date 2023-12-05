@@ -19,7 +19,7 @@ using namespace std;
 void GameEngine::initializeGame()
 {
     initVeggies();
-    //initCaptain();
+    initCaptain();
     initRabbits();
     initSnake();
 
@@ -121,7 +121,6 @@ void GameEngine::initVeggies()
 
 void GameEngine::initCaptain()
 {
-    
 
 }
 
@@ -136,7 +135,7 @@ void GameEngine::initRabbits()
             y = rand() % height;
         } while (field[y][x] != nullptr);
 
-        Rabbit* newRabbit = new Rabbit(x, y);
+        Rabbit* newRabbit = new Rabbit(x, y, "R");
         rabbits.push_back(newRabbit);
         field[y][x] = newRabbit;
     }
@@ -213,7 +212,6 @@ void GameEngine::printField()
             if (veggie_ptr != nullptr)
             {
                 cout << setw(7) << GREEN << field[i][h]->getSymbol() << RESET;
-                //cout << setw(3) << field[i][h]->getSymbol();
             }
             else if (captain_ptr != nullptr)
             {
@@ -380,7 +378,7 @@ void GameEngine::moveSnake()
     int y_new = snake_y;
 
     //determine new position snake should move to
-    int x_direction, y_direction = 0;
+    int x_direction, y_direction;
 
     int x_difference = snake_x - captain_x;
     if (x_difference < 0)
@@ -479,22 +477,22 @@ void GameEngine::moveSnake()
     Captain* captain_ptr = dynamic_cast<Captain*>(field[y_new][x_new]);
     if (captain_ptr != nullptr)
     {   
-        //pop 5 veggies out of captains basket
+        //pop 5 veggies out of captains basket -- waiting on Captain func
 
         //output snake message
-        cout << "Oh no! The snake ate __ veggie(s) from the basket!";
+        cout << "\nOh no! The snake ate __ veggie(s) from the basket!";
         cout << " You lost __ points!" << endl;
 
         //randomize new coordinates after trying to touch Captain
-        int snake_x = rand() % width;
-        int snake_y = rand() % height;
+        x_new = rand() % width;
+        y_new = rand() % height;
 
         //while this spot is not empty, 
-        while (field[snake_y][snake_x] != nullptr)
+        while (field[y_new][x_new] != nullptr)
         {
             //keep trying to find unique coordinates
-            snake_x = rand() % width;
-            snake_y = rand() % height;
+            x_new = rand() % width;
+            y_new = rand() % height;
         }
     }
 
@@ -505,5 +503,4 @@ void GameEngine::moveSnake()
 
     //move snake to new spot
     field[y_new][x_new] = snake;
-
 }

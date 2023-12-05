@@ -37,13 +37,11 @@ class GameEngine
         //height and width of the field
         int height;
         int width;
-        //player's score
+
+        //Adding score - "P"
         int score;
 
-        //Adding score("P")
-        int score;
-
-        //important constants(Marking as static"P")
+        //important constants (Marking as static - "P")
         static const int NUMBEROFVEGGIES = 30;
         static const int NUMBEROFRABBITS = 5;
 
@@ -54,7 +52,6 @@ class GameEngine
         const string BLUE = "\033[34m";      
 
         //object pointers and vectors 
-        //TODO: Think of different names for vectors?
         Captain* captainVeggie;
         Snake* snake;
         vector<Rabbit*> rabbits;
