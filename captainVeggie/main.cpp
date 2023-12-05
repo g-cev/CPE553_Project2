@@ -21,10 +21,8 @@ int main()
     //variable to store number of remaining veggies
     int veggiesLeft = game.remainingVeggies();
 
-    //genesis: printField() taken out of while-loop for testing purposes
     game.printField();
-    return 0;   //cutoff to avoid infinite loop from unfinished functions
-
+    
     //while there are still veggies left in the game
     while (veggiesLeft > 0)
     {
@@ -35,7 +33,7 @@ int main()
         game.printField();
 
         //move the rabbits
-        //game.moveRabbits();
+        game.moveRabbits();
 
         //move the captain
         //game.moveCaptain();

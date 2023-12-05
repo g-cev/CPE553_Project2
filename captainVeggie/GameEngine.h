@@ -32,12 +32,13 @@ class GameEngine
 {
     private:
         //triple pointer to store 2D dynamic array
-        //to ask: why a triple pointer?
         FieldInhabitant*** field;
 
         //height and width of the field
         int height;
         int width;
+        //player's score
+        int score;
 
         //important constants
         const int NUMBEROFVEGGIES = 30;
