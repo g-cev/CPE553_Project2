@@ -212,15 +212,15 @@ void GameEngine::printField()
             }
             else if (captain_ptr != nullptr)
             {
-                cout << setw(7) << YELLOW << "C"; // Assuming "C" is the symbol for Captain and captain is colour coded yellow.
+                cout << setw(7) << YELLOW << "C" << RESET; // Assuming "C" is the symbol for Captain and captain is colour coded yellow.
             }
             else if (rabbit_ptr != nullptr)
             {
-                cout << setw(7) << RED << "R"; //Assuming Rabbit is red and R is the symbol for rabbit
+                cout << setw(7) << RED << "R" << RESET; //Assuming Rabbit is red and R is the symbol for rabbit
             }
             else if (snake_ptr != nullptr)
             {
-                cout << setw(7) << RED << field[i][h]->getSymbol() << RESET;
+                cout << setw(7) << BLUE << field[i][h]->getSymbol() << RESET;
             }
             else
             {
