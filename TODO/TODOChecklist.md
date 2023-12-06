@@ -28,16 +28,16 @@
 --Functions within GameEngine.cpp--
 - [x] initializeGame()
     - [x] a. initVeggies()
-    - [ ] b. initCaptain()
+    - [ ] b. initCaptain() - NEEDS TESTING
     - [x] c. initRabbits()
 - [x] remainingVeggies()
 - [ ] intro() - PARTIALLY DONE
 - [ ] printField() - PARTIALLY DONE
 - [x] getScore()
 - [x] moveRabbits()
-- [ ] moveCaptain()
-    - [ ] a. moveCptVertical()
-    - [ ] b. moveCptHorizontal()
+- [ ] moveCaptain() - NEEDS TESTING
+    - [ ] a. moveCptVertical() - NEEDS TESTING
+    - [ ] b. moveCptHorizontal() - NEEDS TESTING
 - [x] gameOver()
 
 
@@ -53,7 +53,10 @@
 - Working on: printField(), potentially bonus?
 
 #### Robert
-- assigned files here (TODO)
+- Completed initial work on initCaptain(). Needs Testing.
+- Completed initial work on moveCaptain(). Needs Testing.
+- Completed initial work on moveCptHorizontal(). Needs Testing.
+- Completed initial work on moveCptVertical(). Needs Testing.
 
 ### Praveena
 - Completed working on moveRabbits() in GameEngine.cpp-11/29

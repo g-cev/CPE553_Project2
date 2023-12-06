@@ -21,9 +21,7 @@ int main()
     //variable to store number of remaining veggies
     int veggiesLeft = game.remainingVeggies();
 
-    //genesis: printField() taken out of while-loop for testing purposes
     game.printField();
-   //cutoff to avoid infinite loop from unfinished functions
 
     //while there are still veggies left in the game
     while (veggiesLeft > 0)
@@ -39,6 +37,9 @@ int main()
 
         //move the captain
         game.moveCaptain();
+
+        //move the snake
+        //game.moveSnake();
 
         //update number of remaining veggies
         veggiesLeft = game.remainingVeggies();
