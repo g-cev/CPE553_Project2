@@ -121,8 +121,6 @@ void GameEngine::initVeggies()
 
 void GameEngine::initCaptain()
 {
-    srand(time(0)); // Need to test if this is necessary
-
     bool clear = false;
     
     do
@@ -440,19 +438,7 @@ void GameEngine::moveCaptain()
     switch (moveInput)
     {
         // Move Up
-        case 'W':
-            {
-                if (captainVeggie->getYPos() != 0)
-                {
-                    moveCptVertical(1);
-                }
-                else
-                {
-                    cout << "You cannot move this way." << endl;
-                }
-                break;
-            }
-        case 'w':
+        case 'W': case 'w':
             {
                 if (captainVeggie->getYPos() != 0)
                 {
@@ -466,19 +452,7 @@ void GameEngine::moveCaptain()
             }
 
         // Move Left
-        case 'A':
-            {
-                if (captainVeggie->getXPos() != 0)
-                {
-                    moveCptHorizontal(1);
-                }
-                else
-                {
-                    cout << "You cannot move this way." << endl;
-                }
-                break;
-            }
-        case 'a':
+        case 'A': case 'a':
             {
                 if (captainVeggie->getXPos() != 0)
                 {
@@ -492,19 +466,7 @@ void GameEngine::moveCaptain()
             }
 
         // Move Down
-        case 'S':
-            {
-                if (captainVeggie->getYPos() != height)
-                {
-                    moveCptVertical(2);
-                }
-                else
-                {
-                    cout << "You cannot move this way." << endl;
-                }
-                break;
-            }
-        case 's':
+        case 'S': case 's':
             {
                 if (captainVeggie->getYPos() != height)
                 {
@@ -518,19 +480,7 @@ void GameEngine::moveCaptain()
             }
 
         // Move Right
-        case 'D':
-            {
-                if (captainVeggie->getXPos() != width)
-                {
-                    moveCptHorizontal(2);
-                }
-                else
-                {
-                    cout << "You cannot move this way." << endl;
-                }
-                break;
-            }
-        case 'd':
+        case 'D': case 'd':
             {
                 if (captainVeggie->getXPos() != width)
                 {
