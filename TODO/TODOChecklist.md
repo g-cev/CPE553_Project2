@@ -62,4 +62,6 @@
 - Made changes in printField() function on rabbits/captain-11/29
 - Made changes for getScore() function in GameEngine.h & GameEngine.cpp-11/30
 - Made changes for gameOver() in GameEngine.cpp-11/30
+- Adding documentation tags and comments to the code.
+- Working on debugging stuff.
 

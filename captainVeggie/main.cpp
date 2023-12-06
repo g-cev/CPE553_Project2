@@ -38,7 +38,7 @@ int main()
         game.moveRabbits();
 
         //move the captain
-        //game.moveCaptain();
+        game.moveCaptain();
 
         //update number of remaining veggies
         veggiesLeft = game.remainingVeggies();
@@ -46,4 +46,5 @@ int main()
 
     //display game over
     game.gameOver();
+    return 0;
 }
