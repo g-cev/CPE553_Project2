@@ -121,7 +121,23 @@ void GameEngine::initVeggies()
 
 void GameEngine::initCaptain()
 {
+    srand(time(0)); // Need to test if this is necessary
 
+    bool clear = false;
+    
+    do
+    {
+        int initCap_x = rand() % width;
+        int initCap_y = rand() % height;
+
+        if(field[initCap_y][initCap_x] == nullptr)
+        {
+            Captain* captainVeggie = new Captain(initCap_y, initCap_x);
+            field[initCap_y][initCap_x] = captainVeggie;
+            clear = true;
+        }
+    } while (!clear);
+    
 }
 
 void GameEngine::initRabbits()
@@ -277,17 +293,258 @@ void GameEngine::moveRabbits()
 
 void GameEngine::moveCptVertical(int move)
 {
+    int capX = captainVeggie->getXPos();
+    int capY = captainVeggie->getYPos();
 
+    switch(move)
+    {
+        default: // Default, just in case. 
+            cout << "This code has met with a terrible fate, hasn't it?" << endl;
+            break;
+
+        case 1: // Up
+        {
+            Rabbit* rabbitTest = dynamic_cast<Rabbit*>(field[capY+1][capX]);
+            Veggie* veggieTest = dynamic_cast<Veggie*>(field[capY+1][capX]);
+
+
+            if (rabbitTest)
+            {
+                cout << "Don't Step on the Rabbits!" << endl;
+            }
+            else if (veggieTest)
+            {
+                captainVeggie->addVeggie(veggieTest);
+                cout << "A delicious " << veggieTest->getVeggieName() << " has been found!" << endl;
+                score += veggieTest->getPointVal();
+                field[capY+1][capX] = captainVeggie;
+                field[capY][capX] = nullptr;
+                
+
+            }
+            else if(field[capY+1][capX] == nullptr)
+            {
+                field[capY+1][capX] = captainVeggie;
+                field[capY][capX] = nullptr;
+            }
+
+            break;
+        }
+
+        case 2: // Down
+        {
+            Rabbit* rabbitTest = dynamic_cast<Rabbit*>(field[capY-1][capX]);
+            Veggie* veggieTest = dynamic_cast<Veggie*>(field[capY-1][capX]);
+
+
+            if (rabbitTest)
+            {
+                cout << "Don't Step on the Rabbits!" << endl;
+            }
+            else if (veggieTest)
+            {
+                captainVeggie->addVeggie(veggieTest);
+                cout << "A delicious " << veggieTest->getVeggieName() << " has been found!" << endl;
+                score += veggieTest->getPointVal();
+                field[capY-1][capX] = captainVeggie;
+                field[capY][capX] = nullptr;
+                
+
+            }
+            else if(field[capY-1][capX] == nullptr)
+            {
+                field[capY-1][capX] = captainVeggie;
+                field[capY][capX] = nullptr;
+            }
+
+            break; 
+        }
+    }
 }
 
 void GameEngine::moveCptHorizontal(int move)
 {
+    int capX = captainVeggie->getXPos();
+    int capY = captainVeggie->getYPos();
 
+    switch(move)
+    {
+        default: // Default, just in case. 
+            cout << "This code has met with a terrible fate, hasn't it?" << endl;
+            break;
+
+        case 1: // Left
+        {
+            Rabbit* rabbitTest = dynamic_cast<Rabbit*>(field[capY][capX-1]);
+            Veggie* veggieTest = dynamic_cast<Veggie*>(field[capY][capX-1]);
+
+
+            if (rabbitTest)
+            {
+                cout << "Don't Step on the Rabbits!" << endl;
+            }
+            else if (veggieTest)
+            {
+                captainVeggie->addVeggie(veggieTest);
+                cout << "A delicious " << veggieTest->getVeggieName() << " has been found!" << endl;
+                score += veggieTest->getPointVal();
+                field[capY][capX-1] = captainVeggie;
+                field[capY][capX] = nullptr;
+                
+
+            }
+            else if(field[capY][capX-1] == nullptr)
+            {
+                field[capY][capX-1] = captainVeggie;
+                field[capY][capX] = nullptr;
+            }
+
+            break;
+        }
+
+        case 2: // Right
+        {
+            Rabbit* rabbitTest = dynamic_cast<Rabbit*>(field[capY][capX-1]);
+            Veggie* veggieTest = dynamic_cast<Veggie*>(field[capY][capX-1]);
+
+
+            if (rabbitTest)
+            {
+                cout << "Don't Step on the Rabbits!" << endl;
+            }
+            else if (veggieTest)
+            {
+                captainVeggie->addVeggie(veggieTest);
+                cout << "A delicious " << veggieTest->getVeggieName() << " has been found!" << endl;
+                score += veggieTest->getPointVal();
+                field[capY][capX+1] = captainVeggie;
+                field[capY][capX] = nullptr;
+                
+
+            }
+            else if(field[capY][capX+1] == nullptr)
+            {
+                field[capY][capX+1] = captainVeggie;
+                field[capY][capX] = nullptr;
+            }
+
+            break;
+        }
+    }
 }
 
 void GameEngine::moveCaptain()
 {
+    char moveInput;
+    cout << "Your Next Move: UP(W), LEFT(A), DOWN(S), RIGHT(D)" << endl;
+    switch (moveInput)
+    {
+        // Move Up
+        case 'W':
+            {
+                if (captainVeggie->getYPos() != 0)
+                {
+                    moveCptVertical(1);
+                }
+                else
+                {
+                    cout << "You cannot move this way." << endl;
+                }
+                break;
+            }
+        case 'w':
+            {
+                if (captainVeggie->getYPos() != 0)
+                {
+                    moveCptVertical(1);
+                }
+                else
+                {
+                    cout << "You cannot move this way." << endl;
+                }
+                break;
+            }
 
+        // Move Left
+        case 'A':
+            {
+                if (captainVeggie->getXPos() != 0)
+                {
+                    moveCptHorizontal(1);
+                }
+                else
+                {
+                    cout << "You cannot move this way." << endl;
+                }
+                break;
+            }
+        case 'a':
+            {
+                if (captainVeggie->getXPos() != 0)
+                {
+                    moveCptHorizontal(1);
+                }
+                else
+                {
+                    cout << "You cannot move this way." << endl;
+                }
+                break;
+            }
+
+        // Move Down
+        case 'S':
+            {
+                if (captainVeggie->getYPos() != height)
+                {
+                    moveCptVertical(2);
+                }
+                else
+                {
+                    cout << "You cannot move this way." << endl;
+                }
+                break;
+            }
+        case 's':
+            {
+                if (captainVeggie->getYPos() != height)
+                {
+                    moveCptVertical(2);
+                }
+                else
+                {
+                    cout << "You cannot move this way." << endl;
+                }
+                break;
+            }
+
+        // Move Right
+        case 'D':
+            {
+                if (captainVeggie->getXPos() != width)
+                {
+                    moveCptHorizontal(2);
+                }
+                else
+                {
+                    cout << "You cannot move this way." << endl;
+                }
+                break;
+            }
+        case 'd':
+            {
+                if (captainVeggie->getXPos() != width)
+                {
+                    moveCptHorizontal(2);
+                }
+                else
+                {
+                    cout << "You cannot move this way." << endl;
+                }
+                break;
+            }
+        default:
+            break;
+    }
 }
 
 void GameEngine::gameOver()
