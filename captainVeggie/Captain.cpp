@@ -17,15 +17,23 @@ void Captain::addVeggie(Veggie* veggie)
     veggiesCollected.push_back(veggie);
 }
 
-void Captain::removeVeggie(int n, int& pointsLost)
-{
-    //for each removed veggie
-    for (int i = 0; i < veggiesCollected.size(); i++)
-    {
-        //sum up points lost
-        pointsLost += veggiesCollected[-1]->getPointVal();
-        //pop veggie list
-        veggiesCollected.pop_back();
+void Captain::removeVeggie(int n, int& pointsLost) {
+    // The number of veggies to remove should not exceed the number of collected veggies
+    n = std::min(n, static_cast<int>(veggiesCollected.size()));
+
+    // Reset points lost
+    pointsLost = 0;
+
+    // For each removed veggie
+    for (int i = 0; i < n; ++i) {
+        // Check if there are veggies left to remove
+        if (!veggiesCollected.empty()) {
+            // Sum up points lost
+            pointsLost += veggiesCollected.back()->getPointVal();
+
+            // Pop veggie from the list
+            veggiesCollected.pop_back();
+        }
     }
 }
 

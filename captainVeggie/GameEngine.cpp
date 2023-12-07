@@ -128,10 +128,10 @@ void GameEngine::initCaptain()
         {
             initCap_x = rand() % width;  // Generate a random x-coordinate
             initCap_y = rand() % height; // Generate a random y-coordinate
-        } 
-        while (field[initCap_y][initCap_x] != nullptr); // Continue if the position is already occupied
+        } while (field[initCap_y][initCap_x] != nullptr); // Continue if the position is already occupied
 
         captainVeggie = new Captain(initCap_x, initCap_y); 
+        field[initCap_y][initCap_x] = captainVeggie;
 }
 
 /*
@@ -154,11 +154,11 @@ void GameEngine::initRabbits()
         {
             x = rand() % width;  // Generate a random x-coordinate
             y = rand() % height; // Generate a random y-coordinate
-        } 
-        while (field[y][x] != nullptr); // Continue if the position is already occupied
+        } while (field[y][x] != nullptr); // Continue if the position is already occupied
 
         Rabbit* newRabbit = new Rabbit(x, y, "R"); // Create a new rabbit
         rabbits.push_back(newRabbit); // Add the rabbit to the list of rabbits
+        field[y][x] = newRabbit;
     }
 }
 
@@ -469,13 +469,19 @@ void GameEngine::initSnake()
         snake_x = rand() % width;
         snake_y = rand() % height;
     }
-
+/*
     //instantiate snake object
     Snake* snake = new Snake(snake_x, snake_y);
 
     //place snake object in field
     this->snake = snake;
     field[snake_y][snake_x] = snake;
+    */
+   // Instantiate snake object as a class member
+    this->snake = new Snake(snake_x, snake_y);
+
+    // Place snake object in the field
+    field[snake_y][snake_x] = this->snake;
 }
 
 bool GameEngine::nextMoveNotOk(int xPos, int yPos)
@@ -490,12 +496,13 @@ bool GameEngine::nextMoveNotOk(int xPos, int yPos)
     }
     
     //test pointer to see if the captain is the "obstacle"
-    Captain* captain_ptr = dynamic_cast<Captain*>(field[xPos][yPos]);
+    Captain* captain_ptr = dynamic_cast<Captain*>(field[yPos][xPos]);
 
     //if invalid OR (not the captain AND not empty)
-    if (outOfBounds || (captain_ptr == nullptr && field[xPos][yPos] != nullptr))
+    if (outOfBounds || (captain_ptr == nullptr && field[yPos][xPos] != nullptr))
     {
         obstacleExists = true;
+        cout << "Obstacle exists at the position." << endl;
     }
 
     return obstacleExists;
@@ -546,6 +553,15 @@ void GameEngine::moveSnake()
         y_new += y_direction;
         x_new = snake_x;
     }
+    else
+    {
+        x_new += rand() % 3 - 1;
+        y_new += rand() % 3 - 1;
+    }
+
+    // Ensuring that new position is within boundaries
+    x_new = max(0, min(x_new, width - 1));
+    y_new = max(0, min(y_new, height - 1));
     
     if (nextMoveNotOk(x_new, y_new))
     {
