@@ -328,7 +328,7 @@ void GameEngine::moveCptVertical(int move)
 
     
     int newY = (move == 1) ? capY - 1 : capY + 1; // Move up or down based on move value
-    cout << "Attempting to move to: " << newY << "," << capX << endl;
+    //cout << "Attempting to move to: " << newY << "," << capX << endl; //Used for debugging
     if (newY >= 0 && newY < height) {
         FieldInhabitant* occupant = field[newY][capX];
 
@@ -359,7 +359,7 @@ void GameEngine::moveCptHorizontal(int move)
     int capY = captainVeggie->getYPos();
 
     int newX = (move == 1) ? capX - 1 : capX + 1;
-    cout << "Attempting to move to: " << newX << "," << capX << endl;
+    //cout << "Attempting to move to: " << newX << "," << capX << endl; //Used in debugging
     if (newX >= 0 && newX < width) {
         FieldInhabitant* occupant = field[capY][newX];
 
@@ -386,9 +386,9 @@ void GameEngine::moveCptHorizontal(int move)
 
 void GameEngine::moveCaptain()
 {
-    char moveInput;
-    cout << "Your Next Move: UP(W), LEFT(A), DOWN(S), RIGHT(D)" << endl;
-    cin >> moveInput;
+    char moveInput;  
+    cout << "Your Next Move: UP(W), LEFT(A), DOWN(S), RIGHT(D): ";
+    cin >> moveInput; 
     switch (moveInput)
     {
         // Move Up
@@ -502,7 +502,7 @@ bool GameEngine::nextMoveNotOk(int xPos, int yPos)
     if (outOfBounds || (captain_ptr == nullptr && field[yPos][xPos] != nullptr))
     {
         obstacleExists = true;
-        cout << "Obstacle exists at the position." << endl;
+        //cout << "Obstacle exists at the position." << endl;   //Used in debugging
     }
 
     return obstacleExists;
@@ -589,6 +589,8 @@ void GameEngine::moveSnake()
                 score -= pointsLost;
             }
         }
+
+        cout << "Oh no! The snake got into your basket! Points lost!" << endl;
 
         //randomize new coordinates after trying to touch Captain
         x_new = rand() % width;

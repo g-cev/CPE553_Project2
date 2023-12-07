@@ -21,8 +21,6 @@ int main()
     //variable to store number of remaining veggies
     int veggiesLeft = game.remainingVeggies();
 
-    game.printField();
-
     //while there are still veggies left in the game
     while (veggiesLeft > 0)
     {
