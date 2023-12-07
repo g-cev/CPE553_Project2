@@ -3,6 +3,8 @@
     Description: This file defines the member functions for the "GameEngine" class.
 
     g++ -std=c++11 main.cpp GameEngine.cpp FieldInhabitant.cpp Rabbit.cpp Veggie.cpp Captain.cpp Creature.cpp Snake.cpp -o GameEngine
+    g++ -std=c++11 -fsanitize=address main.cpp GameEngine.cpp FieldInhabitant.cpp Rabbit.cpp Veggie.cpp Captain.cpp Creature.cpp Snake.cpp -o GameEngine
+
     ./GameEngine
 */
 
@@ -138,6 +140,17 @@ void GameEngine::initCaptain()
     
 }
 
+/*
+ * @brief Initializes the rabbits in the game.This method populates the game field with a predefined number of rabbits. 
+ * Each rabbit is placed in a random, unoccupied location on the game field.
+ * The number of rabbits is defined by the constant NUMBEROFRABBITS.
+ * 
+ * @note The position for each rabbit is determined by generating random
+ *       x and y coordinates. The loop continues until an empty (nullptr) 
+ *       position is found on the field, ensuring that rabbits do not overlap 
+ *       with each other or other field inhabitants.
+ */
+
 void GameEngine::initRabbits()
 {
     for (int i = 0; i < NUMBEROFRABBITS; ++i)
@@ -145,13 +158,13 @@ void GameEngine::initRabbits()
         int x, y;
         do
         {
-            x = rand() % width;
-            y = rand() % height;
-        } while (field[y][x] != nullptr);
+            x = rand() % width;  // Generate a random x-coordinate
+            y = rand() % height; // Generate a random y-coordinate
+        } 
+        while (field[y][x] != nullptr); // Continue if the position is already occupied
 
-        Rabbit* newRabbit = new Rabbit(x, y, "R");
-        rabbits.push_back(newRabbit);
-        field[y][x] = newRabbit;
+        Rabbit* newRabbit = new Rabbit(x, y, "R"); // Create a new rabbit
+        rabbits.push_back(newRabbit); // Add the rabbit to the list of rabbits
     }
 }
 
@@ -217,6 +230,10 @@ void GameEngine::printField()
 
         for (int h = 0; h < width; h++)
         {
+            if (field[i][h] == nullptr) {
+                cout << setw(3) << "";
+                continue;
+            }
             //pointers for testing
             Veggie* veggie_ptr = dynamic_cast<Veggie*>(field[i][h]);
             Captain* captain_ptr = dynamic_cast<Captain*>(field[i][h]);
@@ -263,28 +280,48 @@ int GameEngine::getScore()
     return score;
 }
 
+/*
+ * @brief Moves all rabbits on the game field.This method iterates through each rabbit in the game and attempts to move it
+ * to a new, adjacent position on the game field. The new position is determined
+ * by adding a random delta (dx, dy) to the rabbit's current position.
+ * 
+ * @details
+ * The deltas dx and dy are randomly generated values that can be -1, 0, or 1, 
+ * which correspond to moving left/right, up/down, or staying in the same place.
+ * The method ensures that rabbits only move within the bounds of the game field
+ * and do not overlap with other rabbits. If the new position is occupied by a 
+ * vegetable, the rabbit can still move there (as rabbits can eat vegetables).
+ * 
+ * @note The function checks for null pointers before attempting to move a rabbit.
+ *       This is important for preventing segmentation faults in case of uninitialized
+ *       or deleted rabbit objects.
+ */
+
 void GameEngine::moveRabbits()
 {
     for (auto rabbit : rabbits)
     {
+        if (!rabbit) continue; // Skip if the rabbit pointer is null
+
         int dx = rand() % 3 - 1;  // Generates -1, 0, or 1
         int dy = rand() % 3 - 1;  // Generates -1, 0, or 1
 
-        int newX = rabbit->getXPos() + dx;
-        int newY = rabbit->getYPos() + dy;
+        int newX = rabbit->getXPos() + dx;  // Calculate new x-coordinate
+        int newY = rabbit->getYPos() + dy;  // Calculate new y-coordinate
 
+        // Check if new coordinates are within the game field bounds
         if (newX >= 0 && newX < width && newY >= 0 && newY < height)
         {
             FieldInhabitant* occupant = field[newY][newX];
-
+            // Cast occupant to Veggie* to check if it's a vegetable
             Veggie* veggie = dynamic_cast<Veggie*>(occupant);
-
+            // Move the rabbit if the new position is empty or has a vegetable
             if (occupant == nullptr || veggie != nullptr)
             {
-                field[rabbit->getYPos()][rabbit->getXPos()] = nullptr;
-                rabbit->setXPos(newX);
-                rabbit->setYPos(newY);
-                field[newY][newX] = rabbit;
+                field[rabbit->getYPos()][rabbit->getXPos()] = nullptr;  // Clear old position
+                rabbit->setXPos(newX);  // Set new x-coordinate for the rabbit
+                rabbit->setYPos(newY);  // Set new y-coordinate for the rabbit
+                field[newY][newX] = rabbit;  // Place rabbit in the new position
             }
         }
     }
@@ -297,6 +334,7 @@ void GameEngine::moveCptVertical(int move)
 
     
     int newY = (move == 1) ? capY - 1 : capY + 1; // Move up or down based on move value
+    cout << "Attempting to move to: " << newY << "," << capX << endl;
     if (newY >= 0 && newY < height) {
         FieldInhabitant* occupant = field[newY][capX];
 
@@ -327,6 +365,7 @@ void GameEngine::moveCptHorizontal(int move)
     int capY = captainVeggie->getYPos();
 
     int newX = (move == 1) ? capX - 1 : capX + 1;
+    cout << "Attempting to move to: " << newX << "," << capX << endl;
     if (newX >= 0 && newX < width) {
         FieldInhabitant* occupant = field[capY][newX];
 
@@ -609,3 +648,21 @@ void GameEngine::moveSnake()
     //move snake to new spot
     field[y_new][x_new] = snake;
 }
+
+GameEngine::~GameEngine() {
+    // Here, you would write the code to free up resources, like deleting pointers
+    for (auto rabbit : rabbits) {
+        delete rabbit;
+    }
+    for (auto veggie : veggies) {
+        delete veggie;
+    }
+    delete captainVeggie;
+    delete snake;
+
+    for (int i = 0; i < height; i++) {
+        delete[] field[i];
+    }
+    delete[] field;
+}
+
