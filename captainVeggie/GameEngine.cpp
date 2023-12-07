@@ -123,21 +123,15 @@ void GameEngine::initVeggies()
 
 void GameEngine::initCaptain()
 {
-    bool clear = false;
-    
-    do
-    {
-        int initCap_x = rand() % width;
-        int initCap_y = rand() % height;
-
-        if(field[initCap_y][initCap_x] == nullptr)
+    int initCap_x, initCap_y;
+        do
         {
-            captainVeggie = new Captain(initCap_y, initCap_x);
-            field[initCap_y][initCap_x] = captainVeggie;
-            clear = true;
-        }
-    } while (!clear);
-    
+            initCap_x = rand() % width;  // Generate a random x-coordinate
+            initCap_y = rand() % height; // Generate a random y-coordinate
+        } 
+        while (field[initCap_y][initCap_x] != nullptr); // Continue if the position is already occupied
+
+        captainVeggie = new Captain(initCap_x, initCap_y); 
 }
 
 /*
