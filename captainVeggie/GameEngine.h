@@ -84,10 +84,6 @@ class GameEngine
         void moveCptHorizontal(int move);
     
     public:
-        //Constructor and destructor
-        GameEngine();
-        ~GameEngine();
-
         /// @brief This function calls the necessary init functions to start the game.
         void initializeGame();
 
