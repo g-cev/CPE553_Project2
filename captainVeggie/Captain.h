@@ -23,6 +23,11 @@ class Captain : public Creature
         /// @param veggie A pointer to a Veggie object.
         void addVeggie(Veggie* veggie);
 
+        /// @brief This function removes a vegetable from the Captain's basket.
+        /// @param n The number of veggies to remove from the basket.
+        /// @param pointsLost A reference to the number of points lost.
+        void removeVeggie(int n, int& pointsLost);
+
         //getter functions
         vector<Veggie*> getVeggiesCollected();
 

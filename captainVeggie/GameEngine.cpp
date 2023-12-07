@@ -480,13 +480,13 @@ void GameEngine::initSnake()
 
 bool GameEngine::nextMoveNotOk(int xPos, int yPos)
 {
-    bool outOfBounds = false;
+    bool outOfBounds = true;
     bool obstacleExists = false;
 
     //if coordinates are out of bounds
-    if (xPos < 0 || yPos < 0 || xPos >= height || yPos >= height)
+    if (xPos >= 0 && xPos < width && yPos >= 0 && yPos < height)
     {
-        outOfBounds = true;
+        outOfBounds = false;
     }
     
     //test pointer to see if the captain is the "obstacle"
@@ -535,91 +535,44 @@ void GameEngine::moveSnake()
         y_direction = 0;    //stay the same
 
 
-    //move left or right
-    if (x_direction != 0)
+
+    if (x_difference != 0)
     {
         x_new += x_direction;
-
-        if (y_direction == 0)
-        {
-            //we always want to move in the y direction if x is blocked
-            y_direction = -1;
-        }
-        if (nextMoveNotOk(x_new, y_new))
-        {
-            //attempt to go around obstacle
-            x_new = snake_x;
-            y_new += y_direction;
-            if (nextMoveNotOk(x_new, y_new))
-            {
-                //something in the way again, not possible to move closer to captain
-                y_new = snake_y;
-                //move opposite direction of original
-                x_new -= x_direction;
-
-                if (nextMoveNotOk(x_new, y_new))
-                {
-                    //something blocking us again!
-                    x_new = snake_x;
-                    y_new -= y_direction;
-
-                    if (nextMoveNotOk(x_new, y_new))
-                    {
-                        //blocked on all directions, don't move
-                        y_new = snake_y;
-                    }
-                }
-            }
-        }
+        y_new = snake_y;
     }
-
-    //move up or down
-    if (y_direction != 0)
+    else if (y_difference != 0)
     {
         y_new += y_direction;
-
-        if (x_direction == 0)
-        {
-            //we always want to move in the x direction if y is blocked
-            x_direction = -1;
-        }
-        if (nextMoveNotOk(x_new, y_new))
-        {
-            //attempt to go around obstacle
-            y_new = snake_y;
-            x_new += x_direction;
-            if (nextMoveNotOk(x_new, y_new))
-            {
-                //something in the way again, not possible to move closer to captain
-                x_new = snake_x;
-                //move opposite direction of original
-                y_new -= y_direction;
-
-                if (nextMoveNotOk(x_new, y_new))
-                {
-                    //something blocking us again!
-                    y_new = snake_y;
-                    x_new -= x_direction;
-
-                    if (nextMoveNotOk(x_new, y_new))
-                    {
-                        //blocked on all directions, don't move
-                        x_new = snake_x;
-                    }
-                }
-            }
-        }
+        x_new = snake_x;
+    }
+    
+    if (nextMoveNotOk(x_new, y_new))
+    {
+        //forfeit move
+        return;
     }
 
     //if the snake touches the captain
     Captain* captain_ptr = dynamic_cast<Captain*>(field[y_new][x_new]);
     if (captain_ptr != nullptr)
     {   
-        //pop 5 veggies out of captains basket -- waiting on Captain func
-
-        //output snake message
-        cout << "\nOh no! The snake ate __ veggie(s) from the basket!";
-        cout << " You lost __ points!" << endl;
+        int pointsLost = 0;
+        //attempt to pop 5 veggies out of captains basket
+        int veggie_count = captainVeggie->getVeggiesCollected().size();
+        if (veggie_count > 0)
+        {
+            if (veggie_count > 5)
+            {
+                captainVeggie->removeVeggie(5, pointsLost);
+                score -= pointsLost;
+            }
+            else
+            {
+                captainVeggie->removeVeggie(veggie_count, pointsLost);
+                score -= pointsLost;
+            }
+        }
 
         //randomize new coordinates after trying to touch Captain
         x_new = rand() % width;

@@ -17,6 +17,18 @@ void Captain::addVeggie(Veggie* veggie)
     veggiesCollected.push_back(veggie);
 }
 
+void Captain::removeVeggie(int n, int& pointsLost)
+{
+    //for each removed veggie
+    for (int i = 0; i < veggiesCollected.size(); i++)
+    {
+        //sum up points lost
+        pointsLost += veggiesCollected[-1]->getPointVal();
+        //pop veggie list
+        veggiesCollected.pop_back();
+    }
+}
+
 //getter and setter functions
 vector<Veggie*> Captain::getVeggiesCollected()
 {
