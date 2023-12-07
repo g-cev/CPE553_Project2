@@ -61,12 +61,10 @@
 ### Praveena
 - Completed working on moveRabbits() in GameEngine.cpp-11/29
 - Completed working on initRabbits() in GameEngine.cpp-11/29
-- Edited "const string& symbol" in Rabbit.h and Rabbit.cpp(FYI)
 - Made changes in printField() function on rabbits/captain-11/29
-- Made changes for getScore() function in GameEngine.h & GameEngine.cpp-11/30
-- Made changes for gameOver() in GameEngine.cpp-11/30
+- Made changes for getScore(),gameOver() function in GameEngine.h & GameEngine.cpp-11/30
 - Adding documentation tags and comments to the code.
-- Working on debugging stuff.
-- Debugged captain code in GameEngine.cpp
-- Do not remove destructor if we remove we get memory leaks.
+- Debugging captain code,movesnake() in GameEngine.cpp
+- Do not remove destructor if we remove we get memory leaks[FYI].
+- Did changes in initsnake(),Captain.cpp(removeveggie())[FYI]
 
