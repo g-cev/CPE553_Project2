@@ -8,6 +8,7 @@
     ./GameEngine
 */
 
+//includes
 #include "GameEngine.h"
 #include "Veggie.h"
 #include "Rabbit.h"
@@ -20,6 +21,7 @@ using namespace std;
 
 void GameEngine::initializeGame()
 {
+    //initialize field inhabitants
     initVeggies();
     initCaptain();
     initRabbits();
@@ -37,6 +39,7 @@ void GameEngine::initVeggies()
     cout << "Please enter the name of the vegetable point file: ";
     getline(cin, filename);
 
+    //attempt to open veggie file
     ifstream veggieFile;
     veggieFile.open(filename);
 
@@ -130,6 +133,7 @@ void GameEngine::initCaptain()
             initCap_y = rand() % height; // Generate a random y-coordinate
         } while (field[initCap_y][initCap_x] != nullptr); // Continue if the position is already occupied
 
+        //after finding an unoccupied space, place the captain
         captainVeggie = new Captain(initCap_x, initCap_y); 
         field[initCap_y][initCap_x] = captainVeggie;
 }
@@ -164,8 +168,10 @@ void GameEngine::initRabbits()
 
 int GameEngine::remainingVeggies()
 {
+    //var to count remaining veggies
     int veggiesLeft = 0;
 
+    //checking every spot in the field
     for (int i = 0; i < height; i++)
     {
         for (int h = 0; h < width; h++)
@@ -173,6 +179,7 @@ int GameEngine::remainingVeggies()
             //pointer for testing
             Veggie* veggie_ptr = dynamic_cast<Veggie*>(field[i][h]);
 
+            //if veggie, add to count
             if (veggie_ptr != nullptr)
             {
                 veggiesLeft++;
@@ -180,11 +187,13 @@ int GameEngine::remainingVeggies()
         }
     }
 
+    //return veggie count
     return veggiesLeft;
 }
 
 void GameEngine::intro()
 {
+    //output game description
     cout << "\nWelcome to Captain Veggie!" << endl;
     cout << "The rabbits have invaded your garden and you must harvest" << endl;
     cout << "as many vegetables as possible before the rabbits eat them" << endl;
@@ -193,6 +202,7 @@ void GameEngine::intro()
 
     cout << "\nBONUS: Watch out for the snake, or else it'll steal your veggies!" << endl;
 
+    //output possible vegetables
     cout << "\nThe vegetables are: " << endl;
     for (int i = 0; i < veggies.size(); i++)
     {
@@ -200,6 +210,7 @@ void GameEngine::intro()
         cout << " " << veggies[i]->getPointVal() << " points" << endl;
     }
 
+    //output character symbols
     cout << "\nCaptain Veggie is " << YELLOW << captainVeggie->getSymbol() << RESET;
     cout << ", the snake is " << BLUE << snake->getSymbol() << RESET;
     cout << ", and the rabbits are " << RED << rabbits[0]->getSymbol() << RESET << endl;
@@ -209,6 +220,7 @@ void GameEngine::intro()
 
 void GameEngine::printField()
 {
+    //calculate border width
     int border_width = width * 3 + 3;
     for (int i = 0; i < border_width; i++)
     {
@@ -234,6 +246,7 @@ void GameEngine::printField()
             Rabbit* rabbit_ptr = dynamic_cast<Rabbit*>(field[i][h]);
             Snake* snake_ptr = dynamic_cast<Snake*>(field[i][h]);
 
+            //if veggie, then veggie symbol, if captain, captain symbol, etc.
             if (veggie_ptr != nullptr)
             {
                 cout << setw(7) << GREEN << field[i][h]->getSymbol() << RESET;
@@ -250,7 +263,6 @@ void GameEngine::printField()
             {
                 cout << setw(7) << BLUE << field[i][h]->getSymbol() << RESET;
             }
-            
             else
             {
                 cout << setw(3) << "";
@@ -328,27 +340,36 @@ void GameEngine::moveCptVertical(int move)
 
     
     int newY = (move == 1) ? capY - 1 : capY + 1; // Move up or down based on move value
-    //cout << "Attempting to move to: " << newY << "," << capX << endl; //Used for debugging
+    //if in bounds
     if (newY >= 0 && newY < height) {
+        //test for field inhabitant
         FieldInhabitant* occupant = field[newY][capX];
 
+        // if this spot is empty
         if (occupant == nullptr) {
+            //allow captain to move there
             field[capY][capX] = nullptr;
             field[newY][capX] = captainVeggie;
             captainVeggie->setYPos(newY);
         } else if (auto* veggie = dynamic_cast<Veggie*>(occupant)) {
+            //else, if this spot is a veggie, add points to score
             score += veggie->getPointVal();
             cout << "A delicious " << veggie->getVeggieName() << " has been found! Score: " << score << endl;
+            //store veggie in basket
             captainVeggie->addVeggie(veggie);
+            //allow captain to take veggie's spot
             field[newY][capX] = captainVeggie;
             field[capY][capX] = nullptr;
             captainVeggie->setYPos(newY);
         } else if (dynamic_cast<Rabbit*>(occupant)) {
+            //if it's a rabbit, forfeit move
             cout << "Don't Step on the Rabbits!" << endl;
         } else if (dynamic_cast<Snake*>(occupant)) {
+            //if it's the snake, forfeit move
             cout << "Don't Step on the Snake!" << endl;
         }
     } else {
+        //invalid movement
         cout << "You cannot move this way." << endl;
     }
 }
@@ -359,10 +380,8 @@ void GameEngine::moveCptHorizontal(int move)
     int capY = captainVeggie->getYPos();
 
     int newX = (move == 1) ? capX - 1 : capX + 1;
-    //cout << "Attempting to move to: " << newX << "," << capX << endl; //Used in debugging
     if (newX >= 0 && newX < width) {
         FieldInhabitant* occupant = field[capY][newX];
-
         if (occupant == nullptr) {
             field[capY][capX] = nullptr;
             field[capY][newX] = captainVeggie;
@@ -386,9 +405,13 @@ void GameEngine::moveCptHorizontal(int move)
 
 void GameEngine::moveCaptain()
 {
+    //prompt user for move input
     string moveInput;  
     cout << "Your Next Move: UP(W), LEFT(A), DOWN(S), RIGHT(D): ";
+    //accept any input, even spaces
     getline(cin, moveInput);
+
+    //only use the first char in input
     switch (moveInput[0])
     {
         // Move Up
@@ -430,9 +453,12 @@ void GameEngine::moveCaptain()
 
 void GameEngine::gameOver()
 {
+    //output message
     cout << "\nGame Over! Thank you for playing \"Captain Veggie\"" << endl;
+    // if there is a captain veggie
     if (captainVeggie)
     {
+        //output vegetables in basket
         cout << "Vegetables harvested by Captain: " << endl;
         if (!captainVeggie->getVeggiesCollected().empty())
         {
@@ -448,10 +474,12 @@ void GameEngine::gameOver()
         {
             cout << "No vegetables were harvested. " << endl;
         }
+        //output final score
         cout << "Your final score: " << getScore() << endl;
     } 
     else
     {
+        //captain was not in field somehow
         cout << "Error: Captain not initialized." << endl;
     }
 }
@@ -469,14 +497,7 @@ void GameEngine::initSnake()
         snake_x = rand() % width;
         snake_y = rand() % height;
     }
-/*
-    //instantiate snake object
-    Snake* snake = new Snake(snake_x, snake_y);
 
-    //place snake object in field
-    this->snake = snake;
-    field[snake_y][snake_x] = snake;
-    */
    // Instantiate snake object as a class member
     this->snake = new Snake(snake_x, snake_y);
 
@@ -486,6 +507,7 @@ void GameEngine::initSnake()
 
 bool GameEngine::nextMoveNotOk(int xPos, int yPos)
 {
+    //set up bools
     bool outOfBounds = true;
     bool obstacleExists = false;
 
@@ -578,12 +600,14 @@ void GameEngine::moveSnake()
         int veggie_count = captainVeggie->getVeggiesCollected().size();
         if (veggie_count > 0)
         {
+            //if there are more than 5 veggies, just take 5
             if (veggie_count > 5)
             {
                 captainVeggie->removeVeggie(5, pointsLost);
                 score -= pointsLost;
             }
             else
+            //if there are less than 5 veggies, just clear the basket
             {
                 captainVeggie->removeVeggie(veggie_count, pointsLost);
                 score -= pointsLost;

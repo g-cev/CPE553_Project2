@@ -14,7 +14,7 @@
 #include <cstdlib>
 #include <iomanip>
 
-//include subclasses
+//includes
 #include "FieldInhabitant.h"
 #include "Captain.h"
 #include "Rabbit.h"
@@ -46,6 +46,7 @@ class GameEngine
         static const int NUMBEROFVEGGIES = 30;
         static const int NUMBEROFRABBITS = 5;
 
+        //ASCII color codes
         const string RESET = "\033[0m";
         const string RED = "\033[31m";
         const string GREEN = "\033[32m";      
@@ -71,8 +72,6 @@ class GameEngine
         /// @brief This function places a snake at a random location.
         void initSnake();
 
-        //TODO: Specify what the "move" parameter is in further development. 
-
         /// @brief This function handles the logic of moving Captain Veggie
         ///        vertically. Changes object properties based on end result.
         /// @param move The delta movement.
@@ -85,6 +84,7 @@ class GameEngine
     
     public:
 
+        /// @brief Destructor
         ~GameEngine();
 
         /// @brief This function calls the necessary init functions to start the game.

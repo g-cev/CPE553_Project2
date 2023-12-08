@@ -8,7 +8,7 @@
 //constructor
 Captain::Captain(int xPos, int yPos) : Creature(xPos, yPos, "V")
 {
-    //do-nothing constructor -> ask in office hours
+    //boring constructor
 }
 
 void Captain::addVeggie(Veggie* veggie)
