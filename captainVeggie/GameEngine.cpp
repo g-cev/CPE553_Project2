@@ -147,7 +147,7 @@ void GameEngine::initCaptain()
         field[initCap_y][initCap_x] = captainVeggie;
 }
 
-/*
+/**
  * @brief Initializes the rabbits in the game.This method populates the game field with a predefined number of rabbits. 
  * Each rabbit is placed in a random, unoccupied location on the game field.
  * The number of rabbits is defined by the constant NUMBEROFRABBITS.
