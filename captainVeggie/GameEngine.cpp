@@ -35,7 +35,7 @@ void GameEngine::initVeggies()
     string filename = "";
 
     cout << "Please enter the name of the vegetable point file: ";
-    cin >> filename;
+    getline(cin, filename);
 
     ifstream veggieFile;
     veggieFile.open(filename);
@@ -386,10 +386,10 @@ void GameEngine::moveCptHorizontal(int move)
 
 void GameEngine::moveCaptain()
 {
-    char moveInput;  
+    string moveInput;  
     cout << "Your Next Move: UP(W), LEFT(A), DOWN(S), RIGHT(D): ";
-    cin >> moveInput; 
-    switch (moveInput)
+    getline(cin, moveInput);
+    switch (moveInput[0])
     {
         // Move Up
         case 'W':
