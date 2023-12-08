@@ -3,7 +3,7 @@
     Description: This file defines the member functions for the "Rabbit" class.
 */
 
-/*
+/**
  * @file Rabbit.cpp
  * @brief Implementation of the Rabbit class.
  * This file contains the implementation of the Rabbit class which is a 

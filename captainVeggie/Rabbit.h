@@ -10,7 +10,7 @@
 #include "Veggie.h"
 #include <string>
 
-/*
+/**
  * @file Rabbit.h
  * @brief Declaration of the Rabbit class.
  *
@@ -20,7 +20,7 @@
 
 class Rabbit : public Creature
 {
-    /*
+    /**
      * Public constructor for Rabbit class.
      * @param xPos The x-coordinate of the rabbit on the game field.
      * @param yPos The y-coordinate of the rabbit on the game field.

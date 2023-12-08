@@ -2,6 +2,7 @@
     Authors: Genesis Cevallos, Robert Plastina, Praveena Batta
     Description: This file defines the member functions for the "GameEngine" class.
 
+    compilation shortcuts:
     g++ -std=c++11 main.cpp GameEngine.cpp FieldInhabitant.cpp Rabbit.cpp Veggie.cpp Captain.cpp Creature.cpp Snake.cpp -o GameEngine
     g++ -std=c++11 -fsanitize=address main.cpp GameEngine.cpp FieldInhabitant.cpp Rabbit.cpp Veggie.cpp Captain.cpp Creature.cpp Snake.cpp -o GameEngine
 
@@ -123,6 +124,14 @@ void GameEngine::initVeggies()
         }
     }
 }
+/**
+ * @brief Initializes Captain Veggie. It randomly selects an x and y for the captain to start from.
+ * A Do-While loop checks the field 2D-array to see if the random coordinate chosen is occupied (not a nullptr) 
+ * After confirming that the coordinate is unoccupied, A new captain object is created, which is assigned to the pointer captainVeggie.
+ * captainVeggie is then stored at the location previously generated.
+ * 
+ * @note the captainVeggie pointer is declared in GameEngine.h
+*/
 
 void GameEngine::initCaptain()
 {
@@ -286,7 +295,7 @@ int GameEngine::getScore()
     return score;
 }
 
-/*
+/**
  * @brief Moves all rabbits on the game field.This method iterates through each rabbit in the game and attempts to move it
  * to a new, adjacent position on the game field. The new position is determined
  * by adding a random delta (dx, dy) to the rabbit's current position.
@@ -332,6 +341,24 @@ void GameEngine::moveRabbits()
         }
     }
 }
+/**
+ * @brief Moves the captain object vertically. Finds captain object's x and y positions, then determines direction using move and a ternary operator.
+ * Then determines if there is an object in the path of movement, and acts accordingly.
+ * If the movement is valid, replaces the previous object coordinates with the captain, and replaces the captain's coordinates with nullptr.
+ * Then sets the Y coordinate of captainVeggie to the new Y.
+ * 
+ * @param move an int that is valued 1 for up and 2 for down (shown in moveCaptain())
+ * Gets fed into a ternary operator that checks if the value is 1, and forks Up/Down respectively depending on the value.
+ * 
+ * @details
+ * if occupant of field is a...
+ * nullptr, then move is valid. captainVeggie takes place of the nullptr, and the old coordinate the captain took becomes a nullptr.
+ * veggie, then move is valid. sends to console a message containing the name of the vegetable.
+ *         Adds the collected vegetable to captainVeggie's veggie vector, and increases score depending on what it is.
+ *         captainVeggie replaces the veggie in the field, and the coordinate left behind becomes a nullptr.
+ * rabbit, then move is invalid. Sends to console that you shouldn't step on rabbits.
+ * snake, then move is invalid. Sends to console that you shouldn't step on snakes.
+*/
 
 void GameEngine::moveCptVertical(int move)
 {
@@ -374,14 +401,37 @@ void GameEngine::moveCptVertical(int move)
     }
 }
 
+/**
+ * @brief Moves the captain object vertically. Finds captain object's x and y positions, then determines direction using move and a ternary operator.
+ * Then determines if there is an object in the path of movement, and acts accordingly.
+ * If the movement is valid, replaces the previous object coordinates with the captain, and replaces the captain's coordinates with nullptr.
+ * Then sets the Y coordinate of captainVeggie to the new X.
+ * 
+ * @param move an int that is valued 1 for left and 2 for right (shown in moveCaptain())
+ * Gets fed into a ternary operator that checks if the value is 1, and forks Left/Right respectively depending on the value.
+ * 
+ * @details
+ * if occupant of field is a...
+ * nullptr, then move is valid. captainVeggie takes place of the nullptr, and the old coordinate the captain took becomes a nullptr.
+ * veggie, then move is valid. sends to console a message containing the name of the vegetable.
+ *         Adds the collected vegetable to captainVeggie's veggie vector, and increases score depending on what it is.
+ *         captainVeggie replaces the veggie in the field, and the coordinate left behind becomes a nullptr.
+ * rabbit, then move is invalid. Sends to console that you shouldn't step on rabbits.
+ * snake, then move is invalid. Sends to console that you shouldn't step on snakes.
+ * 
+ * @note Largely the same as moveCptVertical(), just pertaining to horizontal movements.
+*/
+
 void GameEngine::moveCptHorizontal(int move)
 {
     int capX = captainVeggie->getXPos();
     int capY = captainVeggie->getYPos();
 
     int newX = (move == 1) ? capX - 1 : capX + 1;
+    //cout << "Attempting to move to: " << newX << "," << capX << endl; //Used in debugging
     if (newX >= 0 && newX < width) {
         FieldInhabitant* occupant = field[capY][newX];
+
         if (occupant == nullptr) {
             field[capY][capX] = nullptr;
             field[capY][newX] = captainVeggie;
@@ -402,17 +452,28 @@ void GameEngine::moveCptHorizontal(int move)
         cout << "You cannot move this way." << endl;
     }
 }
+/**
+ * @brief Takes in the string moveInput from the user through getline.
+ * The first char of this string then gets used as an expression for a switch statement
+ * The switch takes in the char and uses it to determine player movement in WASD format, unsensitive to case.
+ * moveCptVertical(int) and moveCptHorizontal(int) are called by the switch statement to perform movement.
+ * 
+ * @note moveInput is a string and not a char because of a late-found bug that caused multiple movements in the case of inputs like 'wasd'.
+ * 
+ * @note Up and Left us 1 as an int for their functions, while Down and Right use 2.
+ * See moveCptVertical(int) and moveCptHorizontal(int) for further details.
+*/
 
 void GameEngine::moveCaptain()
 {
     //prompt user for move input
-    string moveInput;  
+    string moveInput; 
     cout << "Your Next Move: UP(W), LEFT(A), DOWN(S), RIGHT(D): ";
     //accept any input, even spaces
     getline(cin, moveInput);
 
     //only use the first char in input
-    switch (moveInput[0])
+    switch (moveInput[0]) 
     {
         // Move Up
         case 'W':
@@ -497,7 +558,14 @@ void GameEngine::initSnake()
         snake_x = rand() % width;
         snake_y = rand() % height;
     }
+/*
+    //instantiate snake object
+    Snake* snake = new Snake(snake_x, snake_y);
 
+    //place snake object in field
+    this->snake = snake;
+    field[snake_y][snake_x] = snake;
+    */
    // Instantiate snake object as a class member
     this->snake = new Snake(snake_x, snake_y);
 
